@@ -32,7 +32,7 @@ class CDN {
     public function asset($asset)
     {
         if ($this->bypass) {
-            return $asset;
+            return asset($asset);
         }
         return $this->cdnUrl . '/' . ltrim($asset, '/');
     }
