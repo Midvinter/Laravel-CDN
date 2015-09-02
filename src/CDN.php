@@ -20,13 +20,17 @@ class CDN {
     public function __construct($config = [])
     {
         $this->cdnUrl = rtrim($config['CDN_URL'], '/');
+        if ($config['BYPASS'] === null) {
+            $config['BYPASS'] = env('APP_DEBUG', false);
+        }
         $this->bypass = $config['BYPASS'];
     }
 
     /**
      * @param string
      */
-    public function asset($asset) {
+    public function asset($asset)
+    {
         if ($this->bypass) {
             return $asset;
         }
