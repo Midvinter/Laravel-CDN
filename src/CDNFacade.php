@@ -1,18 +1,18 @@
 <?php
 
-namespace Midvinter\CDN;
+namespace EngagementAgency\CDN;
 
 use Illuminate\Support\Facades\Facade;
 
-class CDNFacade extends Facade {
-
+class CDNFacade extends Facade
+{
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return CDN::class;
     }
-
 }

@@ -1,5 +1,5 @@
 {
-    "name": "midvinter/cdn",
+    "name": "engagement-agency/cdn",
     "description": "A CDN helper for laravel",
     "keywords": ["laravel", "cdn"],
     "license": "MIT",
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Midvinter\\CDN\\": "src/"
+            "EngagementAgency\\CDN\\": "src/"
         }
     }
 }

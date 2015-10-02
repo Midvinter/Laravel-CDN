@@ -1,12 +1,11 @@
 <?php
 
-namespace Midvinter\CDN;
+namespace EngagementAgency\CDN;
 
-use Blue\Tools\Api\Client as BSDToolsClient;
 use InvalidArgumentException;
 
-class CDN {
-
+class CDN
+{
     /**
      * @var string
      */
@@ -34,7 +33,17 @@ class CDN {
         if ($this->bypass) {
             return asset($asset);
         }
-        return $this->cdnUrl . '/' . ltrim($asset, '/');
-    }
 
+        static $manifest = null;
+
+        if (is_null($manifest)) {
+            $manifest = json_decode(file_get_contents(public_path('cdn-assets/.manifest.json')), true);
+        }
+
+        if (isset($manifest[$file])) {
+            return $this->cdnUrl . '/build/' . ltrim($manifest[$file], '/');
+        }
+
+        throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+    }
 }
