@@ -12,7 +12,7 @@ return [
      */
     'ASSET_LIST_PATH'   => env(
         'ENGAGEMENT_CDN_ASSET_LIST_PATH',
-        config_path() . '/engagement-cdn.json'
+        config_path('engagement-cdn.json')
     ),
     'BYPASS'            => env('ENGAGEMENT_CDN_BYPASS', null),
 

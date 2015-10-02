@@ -2,11 +2,11 @@
 
 namespace EngagementAgency\CDN\Commands;
 
-use EngagementAgency\CDN;
+use EngagementAgency\CDN\CDN;
 use Illuminate\Console\Command;
 use Symfony\Component\Filesystem\Filesystem;
 
-class Stub extends Command
+class Version extends Command
 {
     /**
      * The name and signature of the console command.
@@ -56,15 +56,14 @@ class Stub extends Command
             );
         }
 
-        $assetFolder =
         $fs = new Filesystem();
         $map = [];
         foreach ($assetList as $source) {
             $sourcePath = public_path(ltrim($source, '/'));
-            $hash = file_hash('sha1', $sourcePath);
-            $relativeSourcePath = $fs->makePathRelative(public_path(), $sourcePath);
-            $relativeTargetPath = './' . CDN::ASSET_FOLDER . '/' . $hash . '/' . ltrim($relativeSourcePath, '/');
-            $targetPath = realpath($relativeTargetPath);
+            $hash = hash_file('md5', $sourcePath);
+            $relativeSourcePath = $fs->makePathRelative($sourcePath, public_path());
+            $relativeTargetPath = CDN::ASSET_FOLDER . '/' . $hash . '/' . trim($relativeSourcePath, '/');
+            $targetPath = public_path($relativeTargetPath);
             $fs->copy($sourcePath, $targetPath);
             $map[$relativeSourcePath] = $relativeTargetPath;
         }

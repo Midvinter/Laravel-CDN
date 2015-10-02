@@ -49,6 +49,6 @@ class CDNServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [CDN::class, Version::class];
+        return [CDN::class];
     }
 }
