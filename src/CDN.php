@@ -6,6 +6,10 @@ use InvalidArgumentException;
 
 class CDN
 {
+    const ASSET_FOLDER = 'cdn-assets';
+
+    const MANIFEST_NAME = '.manifest.json';
+
     /**
      * @var string
      */
@@ -35,9 +39,13 @@ class CDN
         }
 
         static $manifest = null;
-
-        if (is_null($manifest)) {
-            $manifest = json_decode(file_get_contents(public_path('cdn-assets/.manifest.json')), true);
+        if (null === $manifest) {
+            $manifest = json_decode(
+                file_get_contents(
+                    public_path(self::ASSET_FOLDER . '/' . self::MANIFEST_NAME)
+                ),
+                true
+            );
         }
 
         if (isset($manifest[$file])) {

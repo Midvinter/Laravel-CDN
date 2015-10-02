@@ -2,6 +2,7 @@
 
 namespace EngagementAgency\CDN;
 
+use EngagementAgency\CDN\Commands\Version;
 use Illuminate\Support\ServiceProvider;
 
 class CDNServiceProvider extends ServiceProvider
@@ -36,6 +37,9 @@ class CDNServiceProvider extends ServiceProvider
         $this->app->singleton(CDN::class, function ($app) {
             return new CDN(config('engagement-cdn'));
         });
+        $this->app->singleton(Version::class, function ($app) {
+            return new Version(config('engagement-cdn'));
+        });
     }
 
     /**
@@ -45,6 +49,6 @@ class CDNServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [CDN::class];
+        return [CDN::class, Version::class];
     }
 }
