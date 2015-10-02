@@ -61,8 +61,11 @@ class Version extends Command
         foreach ($assetList as $source) {
             $sourcePath = public_path(ltrim($source, '/'));
             $hash = hash_file('md5', $sourcePath);
-            $relativeSourcePath = $fs->makePathRelative($sourcePath, public_path());
-            $relativeTargetPath = CDN::ASSET_FOLDER . '/' . $hash . '/' . trim($relativeSourcePath, '/');
+            $relativeSourcePath = trim(
+                $fs->makePathRelative($sourcePath, public_path()),
+                '/'
+            );
+            $relativeTargetPath = CDN::ASSET_FOLDER . '/' . $hash . '/' . $relativeSourcePath;
             $targetPath = public_path($relativeTargetPath);
             $fs->copy($sourcePath, $targetPath);
             $this->info("$relativeSourcePath has been copied to $relativeTargetPath");
