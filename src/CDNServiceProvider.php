@@ -40,6 +40,7 @@ class CDNServiceProvider extends ServiceProvider
         $this->app->singleton(Version::class, function ($app) {
             return new Version(config('engagement-cdn'));
         });
+        $this->commands([Version::class]);
     }
 
     /**
