@@ -85,7 +85,7 @@ class Version extends Command
             $targetPath = public_path($relativeToPublicTargetPath);
             $fs->copy($sourcePath, $targetPath);
             $this->info(
-                "$relativeSourcePath has been copied to $relativeTargetPath"
+                "$relativeSourcePath has been copied to $relativeToPublicTargetPath"
             );
             $map[$relativeSourcePath] = $relativeToBuildTargetPath;
         }
