@@ -33,10 +33,18 @@ class CDNServiceProvider extends ServiceProvider
     private function getConfig()
     {
         $config = config('engagement-cdn');
-        $config['CDN_URL'] = rtrim($config['CDN_URL'], '/');
-        if ($config['BYPASS'] === null) {
+        if (!$config) {
+            return [];
+        }
+
+        if (isset($config['CDN_URL'])) {
+            $config['CDN_URL'] = rtrim($config['CDN_URL'], '/');
+        }
+
+        if (isset($config['BYPASS']) && $config['BYPASS'] === null) {
             $config['BYPASS'] = env('APP_DEBUG', false);
         }
+
         return $config;
     }
 
