@@ -68,16 +68,15 @@ class Version extends Command
             $relativeTargetPath = CDN::ASSET_FOLDER . '/' . $hash . '/' . $relativeSourcePath;
             $targetPath = public_path($relativeTargetPath);
             $fs->copy($sourcePath, $targetPath);
-            $this->info("$relativeSourcePath has been copied to $relativeTargetPath");
+            $this->info(
+                "$relativeSourcePath has been copied to $relativeTargetPath"
+            );
             $map[$relativeSourcePath] = $relativeTargetPath;
         }
 
         $relativeManifestPath = CDN::ASSET_FOLDER . '/' . CDN::MANIFEST_NAME;
         $manifestPath = public_path($relativeManifestPath);
-        $fs->dumpFile(
-            $manifestPath,
-            json_encode($map)
-        );
+        $fs->dumpFile($manifestPath, json_encode($map));
         $this->info("Manifest has been written to $relativeManifestPath");
     }
 }
