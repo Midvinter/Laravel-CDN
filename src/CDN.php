@@ -6,27 +6,16 @@ use InvalidArgumentException;
 
 class CDN
 {
-    const ASSET_FOLDER = 'cdn-assets';
-
     const MANIFEST_NAME = '.manifest.json';
 
     /**
-     * @var string
+     * @var array
      */
-    private $cdnUrl;
-
-    /**
-     * @var bool
-     */
-    private $bypass;
+    private $config;
 
     public function __construct($config = [])
     {
-        $this->cdnUrl = rtrim($config['CDN_URL'], '/');
-        if ($config['BYPASS'] === null) {
-            $config['BYPASS'] = env('APP_DEBUG', false);
-        }
-        $this->bypass = $config['BYPASS'];
+        $this->config = $config;
     }
 
     /**
@@ -38,17 +27,18 @@ class CDN
         if (null === $manifest) {
             $manifest = json_decode(
                 file_get_contents(
-                    public_path(self::ASSET_FOLDER . '/' . self::MANIFEST_NAME)
+                    public_path($this->config['BUILD_PATH'] . '/' . self::MANIFEST_NAME)
                 ),
                 true
             );
         }
 
         if (isset($manifest[$asset])) {
-            if ($this->bypass) {
-                return '/' . ltrim($manifest[$asset], '/');
+            $assetPath = '/' . $this->config['BUILD_PATH'] . ltrim($manifest[$asset], '/');
+            if ($this->config['BYPASS']) {
+                return $assetPath;
             }
-            return $this->cdnUrl . '/' . ltrim($manifest[$asset], '/');
+            return $this->config['CDN_URL'] . $assetPath;
         }
 
         throw new InvalidArgumentException("File {$asset} not defined in asset manifest.");

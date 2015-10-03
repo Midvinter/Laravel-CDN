@@ -42,6 +42,16 @@ class Version extends Command
     }
 
     /**
+     * Returns the extension of a file
+     *
+     * @return string
+     */
+    private static function extension($name)
+    {
+        return strrchr($name, '.');
+    }
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -60,21 +70,27 @@ class Version extends Command
         $map = [];
         foreach ($assetList as $source) {
             $sourcePath = public_path(ltrim($source, '/'));
-            $hash = hash_file('md5', $sourcePath);
+            $hash = substr(hash_file('md5', $sourcePath), 0, 10);
             $relativeSourcePath = trim(
                 $fs->makePathRelative($sourcePath, public_path()),
                 '/'
             );
-            $relativeTargetPath = CDN::ASSET_FOLDER . '/' . $hash . '/' . $relativeSourcePath;
-            $targetPath = public_path($relativeTargetPath);
+            $extension = self::extension($sourcePath);
+            $relativeToBuildTargetPath = substr(
+                $relativeSourcePath,
+                0,
+                -strlen($extension)
+            ) . '-' . $hash . $extension;
+            $relativeToPublicTargetPath = $this->config['BUILD_PATH'] . '/' . $relativeToBuildTargetPath;
+            $targetPath = public_path($relativeToPublicTargetPath);
             $fs->copy($sourcePath, $targetPath);
             $this->info(
                 "$relativeSourcePath has been copied to $relativeTargetPath"
             );
-            $map[$relativeSourcePath] = $relativeTargetPath;
+            $map[$relativeSourcePath] = $relativeToBuildTargetPath;
         }
 
-        $relativeManifestPath = CDN::ASSET_FOLDER . '/' . CDN::MANIFEST_NAME;
+        $relativeManifestPath = $this->config['BUILD_PATH'] . '/' . CDN::MANIFEST_NAME;
         $manifestPath = public_path($relativeManifestPath);
         $fs->dumpFile($manifestPath, json_encode($map));
         $this->info("Manifest has been written to $relativeManifestPath");

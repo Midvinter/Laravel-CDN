@@ -34,11 +34,16 @@ class CDNServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(CDN::class, function ($app) {
-            return new CDN(config('engagement-cdn'));
+        $config = config('engagement-cdn');
+        $config['CDN_URL'] = rtrim($config['CDN_URL'], '/');
+        if ($config['BYPASS'] === null) {
+            $config['BYPASS'] = env('APP_DEBUG', false);
+        }
+        $this->app->singleton(CDN::class, function ($app) use ($config) {
+            return new CDN($config);
         });
-        $this->app->singleton(Version::class, function ($app) {
-            return new Version(config('engagement-cdn'));
+        $this->app->singleton(Version::class, function ($app) use ($config) {
+            return new Version($config);
         });
         $this->commands([Version::class]);
     }
