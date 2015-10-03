@@ -49,7 +49,7 @@ class CDN
         }
 
         if (isset($manifest[$asset])) {
-            return $this->cdnUrl . '/build/' . ltrim($manifest[$asset], '/');
+            return $this->cdnUrl . '/' . ltrim($manifest[$asset], '/');
         }
 
         throw new InvalidArgumentException("File {$asset} not defined in asset manifest.");
