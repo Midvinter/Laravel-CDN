@@ -34,10 +34,6 @@ class CDN
      */
     public function asset($asset)
     {
-        if ($this->bypass) {
-            return asset($asset);
-        }
-
         static $manifest = null;
         if (null === $manifest) {
             $manifest = json_decode(
@@ -49,6 +45,9 @@ class CDN
         }
 
         if (isset($manifest[$asset])) {
+            if ($this->bypass) {
+                return '/' . ltrim($manifest[$asset], '/');
+            }
             return $this->cdnUrl . '/' . ltrim($manifest[$asset], '/');
         }
 
