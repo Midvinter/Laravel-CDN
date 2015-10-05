@@ -45,7 +45,7 @@ class CDN
         }
 
         if (isset($manifest[$asset])) {
-            $assetPath = '/' . $this->config['BUILD_PATH'] . ltrim($manifest[$asset], '/');
+            $assetPath = '/' . $this->config['BUILD_PATH'] . '/' . ltrim($manifest[$asset], '/');
             return $this->asset($assetPath);
         }
 
