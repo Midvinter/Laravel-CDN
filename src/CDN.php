@@ -23,6 +23,17 @@ class CDN
      */
     public function asset($asset)
     {
+        if ($this->config['BYPASS']) {
+            return $asset;
+        }
+        return $this->config['CDN_URL'] . $asset;
+    }
+
+    /**
+     * @param string
+     */
+    public function versioned($asset)
+    {
         static $manifest = null;
         if (null === $manifest) {
             $manifest = json_decode(
@@ -35,10 +46,7 @@ class CDN
 
         if (isset($manifest[$asset])) {
             $assetPath = '/' . $this->config['BUILD_PATH'] . ltrim($manifest[$asset], '/');
-            if ($this->config['BYPASS']) {
-                return $assetPath;
-            }
-            return $this->config['CDN_URL'] . $assetPath;
+            return $this->asset($assetPath);
         }
 
         throw new InvalidArgumentException("File {$asset} not defined in asset manifest.");
