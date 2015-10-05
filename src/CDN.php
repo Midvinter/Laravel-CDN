@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 class CDN
 {
-    const MANIFEST_NAME = '.manifest.json';
+    const MANIFEST_NAME = 'rev-manifest.json';
 
     /**
      * @var array
