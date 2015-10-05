@@ -92,7 +92,10 @@ class Version extends Command
 
         $relativeManifestPath = $this->config['BUILD_PATH'] . '/' . CDN::MANIFEST_NAME;
         $manifestPath = public_path($relativeManifestPath);
-        $fs->dumpFile($manifestPath, json_encode($map));
+        $fs->dumpFile(
+            $manifestPath,
+            json_encode($map, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
+        );
         $this->info("Manifest has been written to $relativeManifestPath");
     }
 }
