@@ -16,7 +16,7 @@ return [
     ),
 
     'BUILD_PATH'        => env('ENGAGEMENT_CDN_BUILD_PATH', 'cdn-assets'),
-    'BYPASS'            => env('ENGAGEMENT_CDN_BYPASS', null),
+    'BYPASS'            => $bypass,
 
     /**
      * These config variables are mandatory
