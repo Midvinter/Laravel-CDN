@@ -1,5 +1,7 @@
 <?php
 
+namespace tests\EngagementAgency\CDN;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**

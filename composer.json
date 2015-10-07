@@ -18,11 +18,18 @@
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1"
+        "phpspec/phpspec": "~2.1",
+	    "mikey179/vfsStream": "~1.6"
     },
     "autoload": {
         "psr-4": {
             "EngagementAgency\\CDN\\": "src/"
+        },
+        "autoload-dev": {
+            "psr-4": {
+                "spec\\EngagementAgency\\CDN\\": "spec/",
+                "tests\\EngagementAgency\\CDN\\": "tests/"
+            }
         }
     }
 }
